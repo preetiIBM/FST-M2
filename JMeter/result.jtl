@@ -1,0 +1,3 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1710909180209,467,Selenium page,200,OK,Thread Group 1-1,text,true,,12996,129,1,1,https://v1.training-support.net/selenium,457,0,433
+1710909181064,6,Debug Sampler,200,OK,Thread Group 1-1,text,true,,3103,0,1,1,null,0,0,0
