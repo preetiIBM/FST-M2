@@ -1,0 +1,18 @@
+# Specify Base image
+FROM node:18-alpine
+
+# Create working directory
+WORKDIR usr/app
+
+#Copy the package into containder "COPY source destination"
+Copy package.json /usr/app
+
+# Install Dependencies
+RUN npm install
+
+#Copy all other files into containder "COPY source destination"
+Copy ./ /usr/app
+
+# Start the server
+CMD ["npm", "start"]
+

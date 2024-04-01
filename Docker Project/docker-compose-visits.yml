@@ -1,0 +1,18 @@
+#version of yml standard
+version: '3' 
+#container
+services:
+    redis_db:
+        image: 'redis'
+        volumes: 
+        - ./data:/data
+        command: ["redis_server", "--save", "1 1"]
+    node-app:
+    #./ combination of context and docker file
+        build: ./
+        image: 'preeti610/visits'
+        
+          # context: ./ (path of docker file)
+          # dockerfile: Dockerfile (name of docker file)
+        ports:
+            - "8081:8081"

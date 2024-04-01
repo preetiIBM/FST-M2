@@ -1,0 +1,42 @@
+version: '3'
+services:
+  #ngnix service
+  nginx:
+    depends_on:
+            - api
+            - client
+        #restart: always
+    build: ./nginx
+    ports:
+        - '3050:80'
+  #postgres db
+  postgres_db:
+    image: "postgres"
+    environment:
+      - POSTGRES_PASSWORD=postgres_password
+  #redis
+  redis: 
+    image: "redis"
+  #api express service
+  api:
+    build: ./server
+    image: "preeti610/complex_api"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PGHOST=postgres_db
+      - PGPOST=5432
+      - PGUSER=postgres
+      - PGPASSWORD=postgres_password
+      - PGDATABASE=postgres
+  #worker service
+  worker:
+    build: ./worker
+    image: "preeti610/complex_worker"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+  #frontend express
+  client:
+    build: ./client
+    image: "preeti610/complex_client"
