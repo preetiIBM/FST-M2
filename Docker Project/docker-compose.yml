@@ -2,17 +2,22 @@
 version: '3' 
 #container
 services:
-    redis_db:
-        image: 'redis'
-        volumes: 
-        - ./data:/data
-        command: ["redis_server", "--save", "1 1"]
-    node-app:
-    #./ combination of context and docker file
-        build: ./
-        image: 'preeti610/visits'
-        
-          # context: ./ (path of docker file)
-          # dockerfile: Dockerfile (name of docker file)
+    postgres:
+        image: 'postgres:latest'
+        environment:
+            - POSTGRES_PASSWORD=postgres_password
+            - POSTGRES_DB=simple_blog_api
+    api:
+        depends_on:
+            - postgres
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        environment:
+            - POSTGRES_USERNAME=postgres
+            - POSTGRES_HOST=postgres
+            - POSTGRES_DB=simple_blog_api
+            - POSTGRES_PASSWORD=postgres_password
+            - POSTGRES_PORT=5432
         ports:
-            - "8081:8081"
+          - 3000:3000

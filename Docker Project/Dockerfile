@@ -1,18 +1,17 @@
-# Base Image
-FROM node:18-alpine
- 
-# Switch Working Dir to '/usr/app'
+# Build phase
+FROM node:18-alpine as builder
 WORKDIR /usr/app
- 
-# Copy over the package.json into
-# the container
-COPY package.json .
- 
-# Install the deps
+COPY package.json /usr/app
 RUN npm install
- 
-# Copy the rest of the files over
 COPY . .
- 
-# Start the App
-CMD ["npm", "start"]
+RUN npm run build
+
+
+# Run phase
+
+FROM node:18-alpine
+WORKDIR /usr/app
+COPY package.json /usr/app
+RUN npm install
+COPY --FROM=builderer /user/app/dist ./
+CMD ["npm", "server.js"]
