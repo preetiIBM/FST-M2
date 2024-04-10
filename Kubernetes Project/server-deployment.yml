@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: api
+  template:
+    metadata:
+      labels:
+        component: api
+    spec:
+      containers:
+        - name: server
+          image: preeti610/simple_blog_api_ts-master
+          ports:
+            - containerPort: 3000
+          env:
+           - name: POSTGRES_USERNAME
+             value: postgres
+           - name: POSTGRES_HOST
+             value: postgres-cluster-ip-service
+           - name: POSTGRES_DB
+             value: simple_blog_api
+           - name: POSTGRES_PORT
+             value: '5432'
+           - name: POSTGRES_PASSWORD
+             valueFrom: 
+              secretKeyRef:
+                name: password
+                key: POSTGRES_PASSWORD
+           
+
